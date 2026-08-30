@@ -1,0 +1,34 @@
+name: Update Widia homepage text
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-text:
+    if: github.event.head_commit.message != 'Update Widia homepage sales text'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace homepage text
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('app/page.tsx')
+          s = p.read_text()
+          old = 'Maszyny i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.'
+          new = 'Maszyny i narzędzia dostępne w sprzedaży na Allegro oraz bezpośrednio przez Widia.tech.'
+          if old not in s:
+              raise SystemExit('Target text not found')
+          p.write_text(s.replace(old, new, 1))
+          PY
+      - name: Commit change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/page.tsx
+          git commit -m "Update Widia homepage sales text"
+          git push
