@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
   authorizationUrl.searchParams.set("client_id", clientId);
   authorizationUrl.searchParams.set("redirect_uri", redirectUri);
   authorizationUrl.searchParams.set("state", state);
+  authorizationUrl.searchParams.set("prompt", "confirm");
 
   const response = NextResponse.redirect(authorizationUrl);
   response.cookies.set(STATE_COOKIE, state, {
