@@ -1,34 +1,9 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import type { AllegroProduct } from "@/lib/allegro";
 import { isSiteLocale, localeLabels, supportedLocales, texts, type SiteLocale } from "@/lib/locales";
-import LocalizedProductCatalog from "@/components/LocalizedProductCatalog";
+import CatalogLoader from "@/components/CatalogLoader";
 
 export const dynamic = "force-dynamic";
-
-const allegroLanguages: Partial<Record<SiteLocale, string>> = {
-  cs: "cs-CZ",
-  sk: "sk-SK",
-  hu: "hu-HU",
-};
-
-async function getProducts(locale: SiteLocale): Promise<AllegroProduct[]> {
-  try {
-    const requestHeaders = await headers();
-    const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
-    const protocol = requestHeaders.get("x-forwarded-proto") ?? "https";
-    if (!host) return [];
-    const language = allegroLanguages[locale];
-    const query = language ? `?language=${encodeURIComponent(language)}` : "";
-    const response = await fetch(`${protocol}://${host}/api/allegro/offers${query}`, { cache: "no-store" });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return Array.isArray(data) ? data : [];
-  } catch {
-    return [];
-  }
-}
 
 export async function generateStaticParams() {
   return supportedLocales.map((locale) => ({ locale }));
@@ -60,7 +35,6 @@ export default async function LocalizedHome({ params }: { params: Promise<{ loca
   if (!isSiteLocale(rawLocale)) notFound();
   const locale: SiteLocale = rawLocale;
   const t = texts[locale];
-  const products = await getProducts(locale);
 
   return <main className="min-h-screen bg-zinc-950 text-white">
     <section className="mx-auto max-w-7xl px-4 pb-7 pt-6 sm:px-6 sm:py-10">
@@ -76,7 +50,7 @@ export default async function LocalizedHome({ params }: { params: Promise<{ loca
         </nav>
       </div>
     </section>
-    {products.length > 0 ? <LocalizedProductCatalog products={products} locale={locale} /> : <section className="bg-white px-4 py-16 text-center text-zinc-600 sm:px-6 sm:py-20">{t.noProducts}</section>}
+    <CatalogLoader locale={locale} />
     <footer className="border-t border-white/10 bg-zinc-950 px-4 py-8 text-sm text-zinc-400 sm:px-6">
       <div className="mx-auto max-w-7xl">Widia.tech · Warszawa · +48 512 077 770 · info@widia.tech</div>
     </footer>
