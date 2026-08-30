@@ -1,18 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  const clientId = process.env.ALLEGRO_CLIENT_ID;
-  const redirectUri = "http://localhost:3000/api/allegro/callback";
-
-  if (!clientId) {
-    return NextResponse.json({ error: "Brakuje ALLEGRO_CLIENT_ID" }, { status: 500 });
-  }
-
-  const url = new URL("https://allegro.pl/auth/oauth/authorize");
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("client_id", clientId);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("prompt", "confirm");
-
-  return NextResponse.redirect(url.toString());
+export async function GET(request: NextRequest) {
+  const target = new URL("/api/allegro/authorize", request.nextUrl.origin);
+  const key = request.nextUrl.searchParams.get("key");
+  if (key) target.searchParams.set("key", key);
+  return NextResponse.redirect(target);
 }
