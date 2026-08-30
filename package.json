@@ -2,6 +2,7 @@
   "name": "widia-landing",
   "version": "0.1.0",
   "private": true,
+  "description": "Widia.tech storefront",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
