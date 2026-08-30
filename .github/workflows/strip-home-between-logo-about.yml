@@ -1,0 +1,44 @@
+name: Strip homepage content between logo and about
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/strip-home-between-logo-about.yml'
+permissions:
+  contents: write
+jobs:
+  edit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove homepage content between logo and about link
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('app/page.tsx')
+          s=p.read_text()
+          # Preserve header/logo and the O firmie link; remove everything rendered between them.
+          about = '<a href="/o-firmie"'
+          pos = s.find(about)
+          if pos < 0:
+              raise SystemExit('O firmie link not found')
+          # Find the closing element immediately before the content area by anchoring after the logo image.
+          logo_pos = s.find('widiaLogo')
+          if logo_pos < 0:
+              raise SystemExit('Logo not found')
+          img_end = s.find('/>', logo_pos)
+          if img_end < 0 or img_end > pos:
+              raise SystemExit('Logo image end not found')
+          start = img_end + 2
+          s = s[:start] + '\n\n        ' + s[pos:]
+          p.write_text(s)
+          PY
+      - name: Commit
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add app/page.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Remove homepage content between logo and about"
+          git push
