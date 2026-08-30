@@ -1,5 +1,5 @@
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
+import { getRedisClient } from "@/lib/redis";
 
 const STATE_COOKIE = "allegro_oauth_state";
 const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
@@ -56,16 +56,16 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
-  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!redisUrl || !redisToken) {
+  let redis;
+  try {
+    redis = getRedisClient();
+  } catch (error) {
     return NextResponse.json(
-      { error: "Brakuje konfiguracji Redis potrzebnej do zapisania tokenu Allegro" },
+      { error: error instanceof Error ? error.message : "Brakuje konfiguracji Redis" },
       { status: 500 }
     );
   }
 
-  const redis = new Redis({ url: redisUrl, token: redisToken });
   const expiresIn = Number(tokenData.expires_in ?? 3600);
   const validUntil = Date.now() + expiresIn * 1000;
 
