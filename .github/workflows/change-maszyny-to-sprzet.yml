@@ -1,0 +1,37 @@
+name: Change Maszyny to Sprzęt
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/change-maszyny-to-sprzet.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Replace homepage wording
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('app/page.tsx')
+          s = p.read_text()
+          old = 'Maszyny i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.'
+          new = 'Sprzęt i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.'
+          if old not in s:
+              raise SystemExit('Expected homepage text not found')
+          p.write_text(s.replace(old, new, 1))
+          PY
+      - name: Commit change
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/page.tsx
+          git commit -m 'Change Maszyny to Sprzęt on homepage'
+          git push origin main
