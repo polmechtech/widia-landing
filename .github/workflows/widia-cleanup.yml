@@ -1,0 +1,63 @@
+name: Widia.tech cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/widia-cleanup.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove inherited TrendEco-only integrations from visible Widia pages
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          page = Path('app/page.tsx')
+          text = page.read_text(encoding='utf-8')
+          text = re.sub(r'async function getErliPrices\(products: AllegroProduct\[\]\): Promise<ErliMap> \{.*?\}\n', '', text)
+          text = text.replace('type ErliInfo = { price: string; currency: string; url: string };\ntype ErliMap = Record<string, ErliInfo>;\n\n', '')
+          text = text.replace('const tiktokLink = "https://www.tiktok.com/@trendeco4";\n', '')
+          text = text.replace('const products = await getProducts(); const erliPrices = await getErliPrices(products);', 'const products = await getProducts();')
+          text = text.replace('Maszyny i narzędzia dostępne w sprzedaży przez Allegro, ERLI oraz bezpośrednio w Widia.tech.', 'Maszyny i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.')
+          text = re.sub(r'<a href=\{tiktokLink\} target="_blank" rel="noopener noreferrer" className="[^"]+">TikTok</a>', '', text)
+          text = text.replace('<ProductCatalog products={products} erliPrices={erliPrices} />', '<ProductCatalog products={products} erliPrices={{}} />')
+          page.write_text(text, encoding='utf-8')
+
+          catalog = Path('components/ProductCatalog.tsx')
+          text = catalog.read_text(encoding='utf-8')
+          text = re.sub(r'<a href="/" aria-label="Widia\.tech — strona główna" className="ml-auto hidden shrink-0 sm:block"><img src="/trendeco-logo-official\.svg\?v=20260830-4" alt="Widia\.tech" className="h-20 w-auto object-contain lg:h-24" /></a>', '<a href="/" aria-label="Widia.tech — strona główna" className="ml-auto hidden shrink-0 sm:block"><span className="text-2xl font-black tracking-tight lg:text-3xl">Widia.tech</span></a>', text)
+          catalog.write_text(text, encoding='utf-8')
+
+          layout = Path('app/layout.tsx')
+          text = layout.read_text(encoding='utf-8')
+          text = text.replace('import Script from "next/script";\n', '')
+          text = text.replace('const gaId = "G-B2Z2BZS60S";\n', '')
+          text = re.sub(r'\n\s*<Script id="google-consent-default".*?</Script>', '', text)
+          text = re.sub(r'\n\s*<Script src=\{`https://www\.googletagmanager\.com/gtag/js\?id=\$\{gaId\}`\} strategy="afterInteractive" />', '', text)
+          text = re.sub(r'\n\s*<Script id="google-analytics".*?</Script>', '', text)
+          text = text.replace('{ url: "/trendeco-favicon-20260830.ico?v=20260830-6", type: "image/x-icon", sizes: "32x32" },\n', '')
+          text = text.replace('shortcut: "/trendeco-favicon-20260830.ico?v=20260830-6",', 'shortcut: "/icon.svg?v=widia-1",')
+          layout.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit cleanup
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Separate visible Widia.tech integrations from TrendEco [skip ci]'
+          git push origin HEAD:main
