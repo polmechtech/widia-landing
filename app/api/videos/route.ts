@@ -1,7 +1,7 @@
-import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
+import { getRedisClient } from "@/lib/redis";
 
-const redis = Redis.fromEnv();
+const redis = getRedisClient();
 const KEY_PREFIX = "widia:product:videos:";
 
 type VideoLinks = {
