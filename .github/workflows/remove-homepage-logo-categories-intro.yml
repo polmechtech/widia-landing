@@ -1,0 +1,39 @@
+name: Remove homepage logo categories and intro
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-homepage-logo-categories-intro.yml'
+permissions:
+  contents: write
+jobs:
+  edit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean homepage
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('app/page.tsx')
+          s=p.read_text()
+          s=re.sub(r'\nconst widiaLogo = "data:image/webp;base64,.*?";\n', '\n', s, count=1, flags=re.S)
+          s=re.sub(r'\s*<img\b[^>]*src=\{widiaLogo\}[^>]*/>\s*', '\n', s, count=1, flags=re.S)
+          s=re.sub(r'import \{ seoCategories \} from "@/lib/seoCategories";\n', '', s)
+          s=s.replace('Maszyny i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.', '')
+          s=s.replace('Sprzęt i narzędzia dostępne w sprzedaży przez Allegro oraz bezpośrednio w Widia.tech.', '')
+          s=s.replace('Maszyny i narzędzia dostępne w sprzedaży na Allegro oraz bezpośrednio przez Widia.tech.', '')
+          s=s.replace('Sprzęt i narzędzia dostępne w sprzedaży na Allegro oraz bezpośrednio przez Widia.tech.', '')
+          s=s.replace('Piły formatowe i stołowe, piły do betonu, przecinarki, maszyny stolarskie, łuparki i akcesoria.', '')
+          s=re.sub(r'\s*<div[^>]*>\s*\{seoCategories\.map\(.*?\}\s*</div>\s*', '\n', s, count=1, flags=re.S)
+          p.write_text(s)
+          PY
+          if [ -d app/kategoria ]; then git rm -r app/kategoria; fi
+      - name: Commit
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add app/page.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Remove homepage logo categories and intro"
+          git push
