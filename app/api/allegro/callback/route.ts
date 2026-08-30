@@ -5,12 +5,13 @@ const STATE_COOKIE = "allegro_oauth_state";
 const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
 const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
 const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl";
+const DEFAULT_ALLEGRO_CLIENT_ID = "60f9f0c6597e4eb99ba6d9c1852a9cbc";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const returnedState = request.nextUrl.searchParams.get("state");
   const expectedState = request.cookies.get(STATE_COOKIE)?.value;
-  const clientId = process.env.ALLEGRO_CLIENT_ID;
+  const clientId = process.env.ALLEGRO_CLIENT_ID || DEFAULT_ALLEGRO_CLIENT_ID;
   const clientSecret = process.env.ALLEGRO_CLIENT_SECRET;
   const redirectUri = `${request.nextUrl.origin}/api/allegro/callback`;
 
@@ -22,9 +23,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Nieprawidłowy stan autoryzacji Allegro" }, { status: 400 });
   }
 
-  if (!clientId || !clientSecret) {
+  if (!clientSecret) {
     return NextResponse.json(
-      { error: "Brakuje ALLEGRO_CLIENT_ID albo ALLEGRO_CLIENT_SECRET" },
+      { error: "Brakuje ALLEGRO_CLIENT_SECRET" },
       { status: 500 }
     );
   }
