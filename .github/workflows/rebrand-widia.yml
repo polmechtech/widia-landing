@@ -42,11 +42,9 @@ jobs:
               ('TrendEco', 'Widia.tech'),
           ]
 
-          allowed = {'.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.txt', '.mjs', '.css', '.xml', '.yml', '.yaml', '.html'}
+          allowed = {'.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.txt', '.mjs', '.css', '.xml', '.html'}
           for path in Path('.').rglob('*'):
-              if not path.is_file() or '.git' in path.parts or path.suffix.lower() not in allowed:
-                  continue
-              if path.as_posix() == '.github/workflows/clone-trendeco.yml':
+              if not path.is_file() or '.git' in path.parts or '.github' in path.parts or path.suffix.lower() not in allowed:
                   continue
               try:
                   text = path.read_text(encoding='utf-8')
