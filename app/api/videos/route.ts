@@ -2,7 +2,7 @@ import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
 const redis = Redis.fromEnv();
-const KEY_PREFIX = "product:videos:";
+const KEY_PREFIX = "widia:product:videos:";
 
 type VideoLinks = {
   youtube?: string;
