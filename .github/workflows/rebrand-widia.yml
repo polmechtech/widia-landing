@@ -1,0 +1,69 @@
+name: Rebrand clone to Widia.tech
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rebrand-widia.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebrand:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebrand text configuration
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = [
+              ('mail@trendeco.eu', 'info@widia.tech'),
+              ('info@trendeco.eu', 'info@widia.tech'),
+              ('https://trendeco.eu', 'https://widia.tech'),
+              ('trendeco.eu', 'widia.tech'),
+              ('trendeco-landing', 'widia-landing'),
+              ('TRENDECO_UI_VERSION', 'WIDIA_UI_VERSION'),
+              ('trendeco-cart-updated', 'widia-cart-updated'),
+              ('trendeco-cart', 'widia-cart'),
+              ('"allegro:refresh_token"', '"widia:allegro:refresh_token"'),
+              ('"allegro:access_token"', '"widia:allegro:access_token"'),
+              ('"allegro:access_token_ttl"', '"widia:allegro:access_token_ttl"'),
+              ('"allegro:refresh_lock"', '"widia:allegro:refresh_lock"'),
+              ('"allegro:offers_cache:v2"', '"widia:allegro:offers_cache:v1"'),
+              ('`allegro:offer_titles:${language}:v1`', '`widia:allegro:offer_titles:${language}:v1`'),
+              ('TrendEco', 'Widia.tech'),
+          ]
+
+          allowed = {'.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.txt', '.mjs', '.css', '.xml', '.yml', '.yaml', '.html'}
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or '.git' in path.parts or path.suffix.lower() not in allowed:
+                  continue
+              if path.as_posix() == '.github/workflows/clone-trendeco.yml':
+                  continue
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              new = text
+              for old, repl in replacements:
+                  new = new.replace(old, repl)
+              if new != text:
+                  path.write_text(new, encoding='utf-8')
+          PY
+
+      - name: Commit Widia.tech baseline
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Rebrand TrendEco clone to Widia.tech [skip ci]'
+          git push origin HEAD:main
