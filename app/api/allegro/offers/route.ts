@@ -1,8 +1,8 @@
-import { Redis } from "@upstash/redis";
 import { NextResponse } from "next/server";
 import { classifyProduct, mapAllegroOffers, type AllegroProduct } from "@/lib/allegro";
+import { getRedisClient } from "@/lib/redis";
 
-const redis = Redis.fromEnv();
+const redis = getRedisClient();
 
 const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
 const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
