@@ -6,4 +6,5 @@ const nextConfig: NextConfig = {
   },
 };
 
+// Keep this config change to trigger a production rebuild after Redis was connected.
 export default nextConfig;
