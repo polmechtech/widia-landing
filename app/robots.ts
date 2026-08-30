@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "PerplexityBot", allow: "/" },
       { userAgent: "Google-Extended", allow: "/" },
     ],
-    sitemap: "https://trendeco.eu/sitemap.xml",
-    host: "https://trendeco.eu",
+    sitemap: "https://widia.tech/sitemap.xml",
+    host: "https://widia.tech",
   };
 }

@@ -2,7 +2,7 @@ import { getOfferPath, type AllegroProduct } from "@/lib/allegro";
 
 export const dynamic = "force-dynamic";
 
-const baseUrl = "https://trendeco.eu";
+const baseUrl = "https://widia.tech";
 
 function escapeXml(value: unknown) {
   return String(value ?? "")
@@ -22,7 +22,7 @@ function getDiscountedPrice(product: AllegroProduct) {
 }
 
 function descriptionFor(product: AllegroProduct) {
-  return `${product.name}. Nowy produkt dostępny w TrendEco. Kategoria: ${product.category}. Aktualna cena i dostępność na trendeco.eu. Możliwość zamówienia z dostawą na terenie Polski.`;
+  return `${product.name}. Nowy produkt dostępny w Widia.tech. Kategoria: ${product.category}. Aktualna cena i dostępność na widia.tech. Możliwość zamówienia z dostawą na terenie Polski.`;
 }
 
 async function getProducts(): Promise<AllegroProduct[]> {
@@ -58,7 +58,7 @@ export async function GET() {
       <g:availability>${availability}</g:availability>
       <g:price>${escapeXml(`${price} ${product.currency || "PLN"}`)}</g:price>
       <g:condition>new</g:condition>
-      <g:brand>TrendEco</g:brand>
+      <g:brand>Widia.tech</g:brand>
       <g:product_type>${escapeXml(product.category)}</g:product_type>
       <g:identifier_exists>no</g:identifier_exists>
     </item>`;
@@ -68,9 +68,9 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
-    <title>TrendEco — katalog produktów</title>
+    <title>Widia.tech — katalog produktów</title>
     <link>${baseUrl}</link>
-    <description>Aktualny katalog produktów TrendEco dla Google Merchant Center</description>${items}
+    <description>Aktualny katalog produktów Widia.tech dla Google Merchant Center</description>${items}
   </channel>
 </rss>`;
 

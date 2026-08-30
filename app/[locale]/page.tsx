@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!isSiteLocale(locale)) return {};
   const t = texts[locale];
   return {
-    title: `TrendEco — ${t.intro}`,
+    title: `Widia.tech — ${t.intro}`,
     description: t.subintro,
     alternates: {
       canonical: `/${locale}`,
@@ -66,7 +66,7 @@ export default async function LocalizedHome({ params }: { params: Promise<{ loca
     <section className="mx-auto max-w-7xl px-4 pb-7 pt-6 sm:px-6 sm:py-10">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-7xl">TrendEco</h1>
+          <h1 className="text-4xl font-black tracking-tight sm:text-5xl md:text-7xl">Widia.tech</h1>
           <p className="mt-4 max-w-3xl text-base leading-relaxed text-zinc-300 sm:mt-6 sm:text-xl">{t.intro}</p>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-400 sm:mt-4 sm:text-base">{t.subintro}</p>
         </div>
@@ -78,7 +78,7 @@ export default async function LocalizedHome({ params }: { params: Promise<{ loca
     </section>
     {products.length > 0 ? <LocalizedProductCatalog products={products} locale={locale} /> : <section className="bg-white px-4 py-16 text-center text-zinc-600 sm:px-6 sm:py-20">{t.noProducts}</section>}
     <footer className="border-t border-white/10 bg-zinc-950 px-4 py-8 text-sm text-zinc-400 sm:px-6">
-      <div className="mx-auto max-w-7xl">TrendEco · Warszawa · +48 512 077 770 · mail@trendeco.eu</div>
+      <div className="mx-auto max-w-7xl">Widia.tech · Warszawa · +48 512 077 770 · info@widia.tech</div>
     </footer>
   </main>;
 }

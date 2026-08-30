@@ -30,7 +30,7 @@ async function getErliProduct(requestedId: string): Promise<ErliInfo> {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         Accept: "application/json",
-        "User-Agent": "TrendEco/1.0",
+        "User-Agent": "Widia.tech/1.0",
       },
       cache: "no-store",
     });

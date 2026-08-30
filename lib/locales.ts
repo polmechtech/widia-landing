@@ -32,7 +32,7 @@ export const texts: Record<SiteLocale, {
 }> = {
   en: {
     intro: "Machines and tools for woodworking, construction and wood processing.",
-    subintro: "Browse the current TrendEco range and open the selected offer on Allegro.",
+    subintro: "Browse the current Widia.tech range and open the selected offer on Allegro.",
     search: "Search products...",
     categories: { "Łuparki": "Log splitters", "Budownictwo": "Construction", "Meblarstwo": "Woodworking", "Akcesoria": "Accessories" },
     available: "Available",
@@ -44,7 +44,7 @@ export const texts: Record<SiteLocale, {
   },
   cs: {
     intro: "Stroje a nářadí pro truhlářství, stavebnictví a zpracování dřeva.",
-    subintro: "Prohlédněte si aktuální nabídku TrendEco a otevřete vybranou nabídku na Allegro.cz.",
+    subintro: "Prohlédněte si aktuální nabídku Widia.tech a otevřete vybranou nabídku na Allegro.cz.",
     search: "Hledat produkt...",
     categories: { "Łuparki": "Štípačky dřeva", "Budownictwo": "Stavebnictví", "Meblarstwo": "Truhlářství", "Akcesoria": "Příslušenství" },
     available: "Dostupné",
@@ -56,7 +56,7 @@ export const texts: Record<SiteLocale, {
   },
   sk: {
     intro: "Stroje a náradie pre stolárstvo, stavebníctvo a spracovanie dreva.",
-    subintro: "Pozrite si aktuálnu ponuku TrendEco a otvorte vybranú ponuku na Allegro.sk.",
+    subintro: "Pozrite si aktuálnu ponuku Widia.tech a otvorte vybranú ponuku na Allegro.sk.",
     search: "Hľadať produkt...",
     categories: { "Łuparki": "Štiepačky dreva", "Budownictwo": "Stavebníctvo", "Meblarstwo": "Stolárstvo", "Akcesoria": "Príslušenstvo" },
     available: "Dostupné",
@@ -68,7 +68,7 @@ export const texts: Record<SiteLocale, {
   },
   hu: {
     intro: "Gépek és szerszámok faipari, építőipari és famegmunkálási feladatokhoz.",
-    subintro: "Tekintse meg a TrendEco aktuális kínálatát, majd nyissa meg a kiválasztott ajánlatot az Allegro.hu oldalon.",
+    subintro: "Tekintse meg a Widia.tech aktuális kínálatát, majd nyissa meg a kiválasztott ajánlatot az Allegro.hu oldalon.",
     search: "Termék keresése...",
     categories: { "Łuparki": "Rönkhasítók", "Budownictwo": "Építőipar", "Meblarstwo": "Faipar", "Akcesoria": "Tartozékok" },
     available: "Elérhető",
@@ -80,7 +80,7 @@ export const texts: Record<SiteLocale, {
   },
   ro: {
     intro: "Mașini și unelte pentru tâmplărie, construcții și prelucrarea lemnului.",
-    subintro: "Consultați oferta actuală TrendEco și deschideți oferta selectată pe Allegro.",
+    subintro: "Consultați oferta actuală Widia.tech și deschideți oferta selectată pe Allegro.",
     search: "Caută produs...",
     categories: { "Łuparki": "Despicătoare de lemn", "Budownictwo": "Construcții", "Meblarstwo": "Tâmplărie", "Akcesoria": "Accesorii" },
     available: "Disponibil",

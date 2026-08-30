@@ -7,14 +7,14 @@ import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const siteUrl = "https://trendeco.eu";
+const siteUrl = "https://widia.tech";
 const gaId = "G-B2Z2BZS60S";
-const whatsappLink = "https://wa.me/48512077770?text=Dzień%20dobry%2C%20mam%20pytanie%20o%20ofertę%20TrendEco.";
+const whatsappLink = "https://wa.me/48512077770?text=Dzień%20dobry%2C%20mam%20pytanie%20o%20ofertę%20Widia.tech.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "TrendEco — maszyny i narzędzia", template: "%s | TrendEco" },
-  description: "Maszyny i narzędzia dla meblarstwa, budownictwa i obróbki drewna. Aktualne ceny i dostępność z ofert TrendEco na Allegro.",
+  title: { default: "Widia.tech — maszyny i narzędzia", template: "%s | Widia.tech" },
+  description: "Maszyny i narzędzia dla meblarstwa, budownictwa i obróbki drewna. Aktualne ceny i dostępność z ofert Widia.tech na Allegro.",
   alternates: { canonical: "/" },
   icons: {
     icon: [
@@ -23,15 +23,15 @@ export const metadata: Metadata = {
     ],
     shortcut: "/trendeco-favicon-20260830.ico?v=20260830-6",
   },
-  openGraph: { type: "website", locale: "pl_PL", url: siteUrl, siteName: "TrendEco", title: "TrendEco — maszyny i narzędzia", description: "Aktualny katalog maszyn i narzędzi TrendEco. Zakup, płatność i dostawa realizowane przez Allegro." },
-  twitter: { card: "summary_large_image", title: "TrendEco — maszyny i narzędzia", description: "Aktualny katalog ofert TrendEco dostępnych na Allegro." },
+  openGraph: { type: "website", locale: "pl_PL", url: siteUrl, siteName: "Widia.tech", title: "Widia.tech — maszyny i narzędzia", description: "Aktualny katalog maszyn i narzędzi Widia.tech. Zakup, płatność i dostawa realizowane przez Allegro." },
+  twitter: { card: "summary_large_image", title: "Widia.tech — maszyny i narzędzia", description: "Aktualny katalog ofert Widia.tech dostępnych na Allegro." },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
   category: "commerce",
 };
 
 const organizationJsonLd = {
-  "@context": "https://schema.org", "@type": "Organization", name: "TrendEco", url: siteUrl,
-  email: "mail@trendeco.eu", telephone: "+48512077770",
+  "@context": "https://schema.org", "@type": "Organization", name: "Widia.tech", url: siteUrl,
+  email: "info@widia.tech", telephone: "+48512077770",
   address: { "@type": "PostalAddress", streetAddress: "Jagielska 25/27", postalCode: "02-886", addressLocality: "Warszawa", addressCountry: "PL" },
 };
 

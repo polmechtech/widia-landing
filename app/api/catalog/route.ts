@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const response = await fetch("https://trendeco.eu/api/allegro/offers", {
+  const response = await fetch("https://widia.tech/api/allegro/offers", {
     next: { revalidate: 3600 },
   });
 
@@ -14,8 +14,8 @@ export async function GET() {
   const products = await response.json();
   return NextResponse.json(
     {
-      publisher: "TrendEco",
-      website: "https://trendeco.eu",
+      publisher: "Widia.tech",
+      website: "https://widia.tech",
       source: "Allegro",
       updatedAt: new Date().toISOString(),
       products,

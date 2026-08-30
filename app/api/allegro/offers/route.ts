@@ -4,11 +4,11 @@ import { classifyProduct, mapAllegroOffers, type AllegroProduct } from "@/lib/al
 
 const redis = Redis.fromEnv();
 
-const REFRESH_TOKEN_KEY = "allegro:refresh_token";
-const ACCESS_TOKEN_KEY = "allegro:access_token";
-const ACCESS_TOKEN_TTL_KEY = "allegro:access_token_ttl";
-const LOCK_KEY = "allegro:refresh_lock";
-const OFFERS_CACHE_KEY = "allegro:offers_cache:v2";
+const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
+const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
+const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl";
+const LOCK_KEY = "widia:allegro:refresh_lock";
+const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v1";
 const OFFERS_CACHE_SECONDS = 60 * 60;
 const TRANSLATION_CACHE_SECONDS = 60 * 60;
 const SUPPORTED_TRANSLATION_LANGUAGES = new Set(["cs-CZ", "sk-SK", "hu-HU"]);
@@ -203,7 +203,7 @@ async function fetchTranslatedTitle(accessToken: string, offerId: string, langua
 }
 
 async function loadTranslatedTitles(products: AllegroProduct[], language: string): Promise<Record<string, string>> {
-  const cacheKey = `allegro:offer_titles:${language}:v1`;
+  const cacheKey = `widia:allegro:offer_titles:${language}:v1`;
   const cached = await redis.get<Record<string, string>>(cacheKey).catch(() => null);
   if (cached) return cached;
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const CART_KEY = "trendeco-cart";
+const CART_KEY = "widia-cart";
 
 type CartItem = { id: string; quantity: number };
 
@@ -21,10 +21,10 @@ export default function CartButton() {
   useEffect(() => {
     const update = () => setCount(readCount());
     update();
-    window.addEventListener("trendeco-cart-updated", update);
+    window.addEventListener("widia-cart-updated", update);
     window.addEventListener("storage", update);
     return () => {
-      window.removeEventListener("trendeco-cart-updated", update);
+      window.removeEventListener("widia-cart-updated", update);
       window.removeEventListener("storage", update);
     };
   }, []);

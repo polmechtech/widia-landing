@@ -7,7 +7,7 @@ export const revalidate = 3600;
 
 async function getProducts(): Promise<AllegroProduct[]> {
   try {
-    const response = await fetch("https://trendeco.eu/api/allegro/offers", {
+    const response = await fetch("https://widia.tech/api/allegro/offers", {
       next: { revalidate: 3600 },
     });
     if (!response.ok) return [];
@@ -32,12 +32,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: category.title,
     description: category.description,
     alternates: { canonical: path },
-    keywords: [category.keyword, "TrendEco", "maszyny", "narzędzia", "Warszawa", "Polska"],
+    keywords: [category.keyword, "Widia.tech", "maszyny", "narzędzia", "Warszawa", "Polska"],
     openGraph: {
       type: "website",
       locale: "pl_PL",
       url: path,
-      siteName: "TrendEco",
+      siteName: "Widia.tech",
       title: category.title,
       description: category.description,
     },
@@ -66,7 +66,7 @@ export default async function SeoCategoryPage({ params }: { params: Promise<{ sl
   if (!category) notFound();
 
   const products = (await getProducts()).filter((product) => matchesSeoCategory(product, category));
-  const url = `https://trendeco.eu/kategoria/${category.slug}`;
+  const url = `https://widia.tech/kategoria/${category.slug}`;
 
   const itemListJsonLd = {
     "@context": "https://schema.org",
@@ -79,7 +79,7 @@ export default async function SeoCategoryPage({ params }: { params: Promise<{ sl
       itemListElement: products.map((product, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: `https://trendeco.eu${getOfferPath(product)}`,
+        url: `https://widia.tech${getOfferPath(product)}`,
         name: product.name,
       })),
     },
@@ -91,7 +91,7 @@ export default async function SeoCategoryPage({ params }: { params: Promise<{ sl
 
       <header className="bg-zinc-950 px-4 py-8 text-white sm:px-6 sm:py-14">
         <div className="mx-auto max-w-7xl">
-          <a href="/" className="text-sm font-bold text-orange-400">← TrendEco</a>
+          <a href="/" className="text-sm font-bold text-orange-400">← Widia.tech</a>
           <h1 className="mt-5 max-w-5xl text-3xl font-black leading-tight sm:text-5xl">{category.heading}</h1>
           <p className="mt-5 max-w-4xl text-base leading-7 text-zinc-300 sm:text-lg">{category.intro}</p>
         </div>
@@ -132,14 +132,14 @@ export default async function SeoCategoryPage({ params }: { params: Promise<{ sl
             </div>
           ) : (
             <div className="rounded-3xl border border-zinc-200 bg-zinc-50 px-6 py-12 text-center text-zinc-600">
-              Aktualne oferty z tej kategorii są w trakcie aktualizacji. Sprawdź pełny katalog TrendEco.
+              Aktualne oferty z tej kategorii są w trakcie aktualizacji. Sprawdź pełny katalog Widia.tech.
             </div>
           )}
 
           <section className="mt-12 max-w-4xl border-t border-zinc-200 pt-8">
-            <h2 className="text-2xl font-black">{category.keyword} — oferta TrendEco</h2>
+            <h2 className="text-2xl font-black">{category.keyword} — oferta Widia.tech</h2>
             <p className="mt-4 leading-7 text-zinc-700">{category.intro}</p>
-            <p className="mt-4 leading-7 text-zinc-700">TrendEco prowadzi sprzedaż maszyn i narzędzi w Polsce. Aktualne produkty możesz sprawdzić bezpośrednio na stronie, przez Allegro i ERLI. Przy wybranych produktach dostępne jest również zamówienie bezpośrednie.</p>
+            <p className="mt-4 leading-7 text-zinc-700">Widia.tech prowadzi sprzedaż maszyn i narzędzi w Polsce. Aktualne produkty możesz sprawdzić bezpośrednio na stronie, przez Allegro i ERLI. Przy wybranych produktach dostępne jest również zamówienie bezpośrednie.</p>
           </section>
         </div>
       </section>

@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         headers: {
           Authorization: `Bearer ${apiKey}`,
           Accept: "application/json",
-          "User-Agent": "TrendEco/1.0 (ERLI price diagnostic)",
+          "User-Agent": "Widia.tech/1.0 (ERLI price diagnostic)",
         },
         cache: "no-store",
       }

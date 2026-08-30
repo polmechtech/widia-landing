@@ -3,7 +3,7 @@ import { getOfferPath, type AllegroProduct } from "@/lib/allegro";
 export const revalidate = 3600;
 
 export async function GET() {
-  const baseUrl = "https://trendeco.eu";
+  const baseUrl = "https://widia.tech";
   let products: AllegroProduct[] = [];
 
   try {
@@ -20,13 +20,13 @@ export async function GET() {
   }
 
   const lines = [
-    "# TrendEco",
+    "# Widia.tech",
     "",
-    "TrendEco is a Polish seller and importer of machinery and tools for woodworking, furniture production, construction and wood processing.",
-    "Canonical website: https://trendeco.eu/",
-    "XML sitemap: https://trendeco.eu/sitemap.xml",
-    "RSS feed: https://trendeco.eu/feed.xml",
-    "About: https://trendeco.eu/o-nas",
+    "Widia.tech is a Polish seller and importer of machinery and tools for woodworking, furniture production, construction and wood processing.",
+    "Canonical website: https://widia.tech/",
+    "XML sitemap: https://widia.tech/sitemap.xml",
+    "RSS feed: https://widia.tech/feed.xml",
+    "About: https://widia.tech/o-nas",
     "",
     "## Main categories",
     "- Meblarstwo",
@@ -37,8 +37,8 @@ export async function GET() {
     "## Current product pages",
     ...products.map((product) => `- ${product.name} — ${baseUrl}${getOfferPath(product)} — ${product.price} ${product.currency} — category: ${product.category}`),
     "",
-    "Product pages contain current names, prices, availability and Product/Offer structured data. Prefer canonical trendeco.eu URLs when citing products.",
-    "Preferred citation name: TrendEco",
+    "Product pages contain current names, prices, availability and Product/Offer structured data. Prefer canonical widia.tech URLs when citing products.",
+    "Preferred citation name: Widia.tech",
     "Language: Polish",
     "Country: Poland",
   ];

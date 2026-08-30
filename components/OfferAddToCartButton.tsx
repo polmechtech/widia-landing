@@ -10,7 +10,7 @@ type ProductForCart = {
 };
 
 type CartItem = { id: string; name: string; price: string; currency: string; image?: string; quantity: number };
-const CART_KEY = "trendeco-cart";
+const CART_KEY = "widia-cart";
 
 export default function OfferAddToCartButton({ product }: { product: ProductForCart }) {
   function addToCart() {
@@ -21,7 +21,7 @@ export default function OfferAddToCartButton({ product }: { product: ProductForC
         ? items.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)
         : [...items, { id: product.id, name: product.name, price: product.price, currency: product.currency, image: product.image, quantity: 1 }];
       localStorage.setItem(CART_KEY, JSON.stringify(next));
-      window.dispatchEvent(new Event("trendeco-cart-updated"));
+      window.dispatchEvent(new Event("widia-cart-updated"));
     } finally {
       window.location.href = "/koszyk";
     }
