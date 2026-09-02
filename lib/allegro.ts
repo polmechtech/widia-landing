@@ -1,8 +1,11 @@
 export type ProductCategory =
-  | "Łuparki"
-  | "Budownictwo"
-  | "Meblarstwo"
-  | "Akcesoria";
+  | "Frez nasadzany prosty"
+  | "Frez na płytki wymienne"
+  | "Frezy kopiące"
+  | "Wały spiralne"
+  | "Strugi Rebir"
+  | "Noże do grubościówek"
+  | "Inne";
 
 export type AllegroProduct = {
   id: string;
@@ -12,38 +15,16 @@ export type AllegroProduct = {
   currency: string;
   stock: number;
   url: string;
-  category: ProductCategory;
-};
-
-export const WIDIA_UI_VERSION = "pobranie-whatsapp-tiktok-v1";
-
-export function classifyProduct(name: string): ProductCategory {
-  const n = name.toLowerCase();
-  if (
-    n.includes("cnc") ||
-    n.includes("piła stołowa") ||
-    n.includes("pila stolowa") ||
-    n.includes("stół") ||
-    n.includes("stolowa") ||
-    n.includes("stołowa")
-  ) return "Meblarstwo";
-  if (
-    n.includes("łupar") ||
-    n.includes("rozłupyw") ||
-    n.includes("przekładnia") ||
-    n.includes("przekladnia")
-  ) return "Łuparki";
-  if (
-    n.includes("piła pierścieniowa") || n.includes("piła pierscieniowa") ||
-    n.includes("ring saw") || n.includes("przecinarka") ||
-    n.includes("prowadnica do piły") || n.includes("prowadnica 2,5") ||
-    n.includes("prowadnica 2.5") || n.includes("beton") || n.includes("żelbet")
-  ) return "Budownictwo";
-  if (n.includes("piła formatowa") || n.includes("formatowa") || n.includes("okleiniarka")) return "Meblarstwo";
-  if (
-    n.includes("wał spiralny") || n.includes("wal spiralny") ||
-    n.includes("nóż") || n.includes("noże") || n.includes("płytka") || n.includes("frez") ||
-    n.includes("przymiar") || n.includes("osłona") || n.includes("oslona")
+  categexport function classifyProduct(name: string): ProductCategory {
+  const n = name.toLocaleLowerCase("pl-PL");
+  if (n.includes("rebir") || n.includes("strug")) return "Strugi Rebir";
+  if (n.includes("grubościów") || n.includes("grubosciow") || n.includes("noż") || n.includes("noz")) return "Noże do grubościówek";
+  if (n.includes("wał spiral") || n.includes("wal spiral") || n.includes("spiral")) return "Wały spiralne";
+  if (n.includes("frez") && (n.includes("płytk") || n.includes("plytk") || n.includes("wymien"))) return "Frez na płytki wymienne";
+  if (n.includes("frez") && (n.includes("kop") || n.includes("rowkuj") || n.includes("gniazd"))) return "Frezy kopiące";
+  if (n.includes("frez") || n.includes("głowic") || n.includes("glowic")) return "Frez nasadzany prosty";
+  return "Inne";
+}ncludes("osłona") || n.includes("oslona")
   ) return "Akcesoria";
   return "Meblarstwo";
 }
