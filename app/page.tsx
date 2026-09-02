@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { countryToLocale } from "@/lib/locales";
 import CatalogLoader from "@/components/CatalogLoader";
+import { seoCategories } from "@/lib/seoCategories";
 
 const whatsappLink = "https://wa.me/48512077770?text=Dzień%20dobry%2C%20mam%20pytanie%20o%20ofertę%20Widia.tech.";
 const languageLinks = [
