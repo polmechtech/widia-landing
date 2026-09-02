@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import type { AllegroProduct, ProductCategory } from "@/lib/allegro";
 import { allegroUrl, texts, type SiteLocale } from "@/lib/locales";
 
-const sections: ProductCategory[] = ["Łuparki", "Budownictwo", "Meblarstwo", "Akcesoria"];
+const sections: ProductCategory[] = ["Frez nasadzany prosty", "Frez na płytki wymienne", "Frezy kopiące", "Wały spiralne", "Strugi Rebir", "Noże do grubościówek", "Inne"];
 
 function categoryId(category: ProductCategory) {
   return `category-${category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l").replace(/[^a-z0-9]+/g, "-")}`;
