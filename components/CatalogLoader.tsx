@@ -50,5 +50,5 @@ export default function CatalogLoader({ locale }: { locale?: SiteLocale }) {
     return <LocalizedProductCatalog products={products} locale={locale} />;
   }
 
-  return <ProductCatalog products={products} erliPrices={{}} />;
+  return <ProductCatalog products={products} />;
 }
