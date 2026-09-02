@@ -3,28 +3,15 @@ import { redirect } from "next/navigation";
 import { countryToLocale } from "@/lib/locales";
 import CatalogLoader from "@/components/CatalogLoader";
 import { seoCategories } from "@/lib/seoCategories";
-
-const whatsappLink = "https://wa.me/48512077770?text=Dzień%20dobry%2C%20mam%20pytanie%20o%20ofertę%20Widia.tech.";
-const languageLinks = [
-  { href: "/", flag: "🇵🇱", label: "PL", title: "Polski" },
-  { href: "/en", flag: "🇬🇧", label: "EN", title: "English" },
-  { href: "/cs", flag: "🇨🇿", label: "CZ", title: "Čeština" },
-  { href: "/sk", flag: "🇸🇰", label: "SK", title: "Slovenčina" },
-  { href: "/hu", flag: "🇭🇺", label: "HU", title: "Magyar" },
-  { href: "/ro", flag: "🇷🇴", label: "RO", title: "Română" },
-];
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const country = (requestHeaders.get("x-vercel-ip-country") ?? "PL").toUpperCase();
-  if (country !== "PL") redirect(`/${countryToLocale[country] ?? "en"}`);
-
-  const websiteJsonLd = { "@context": "https://schema.org", "@type": "WebSite", name: "Widia.tech", url: "https://widia.tech", inLanguage: "pl-PL" };
-  return <main className="min-h-screen bg-white text-zinc-950"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
-    <section className="mx-auto max-w-7xl px-4 pb-7 pt-6 sm:px-6 sm:py-10"><div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"><div>
-<p className="mt-4 max-w-3xl text-base font-semibold leading-relaxed text-zinc-900 sm:mt-6 sm:text-xl"></p><p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600 sm:mt-4 sm:text-base"></p></div><div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3"><nav aria-label="Wybierz język" className="flex flex-wrap items-center gap-2">{languageLinks.map((language) => <a key={language.label} href={language.href} title={language.title} aria-label={language.title} className="inline-flex min-h-12 items-center gap-1 rounded-2xl border border-zinc-200 bg-white px-3 py-2 text-sm font-black text-zinc-800 shadow-sm transition hover:border-orange-400 hover:bg-orange-50 sm:rounded-full"><span className="text-xl leading-none" aria-hidden="true">{language.flag}</span><span>{language.label}</span></a>)}</nav><div className="flex items-center gap-2 sm:ml-auto sm:gap-3"><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex min-h-12 items-center justify-center rounded-2xl bg-green-600 px-3 py-3 text-center text-sm font-bold text-white transition hover:bg-green-500 sm:rounded-full sm:px-5">WhatsApp<span className="hidden sm:inline"> +48 512 077 770</span></a></div></div></div>
-    <nav aria-label="Najczęściej szukane produkty" className="mt-5 grid grid-cols-3 gap-2 sm:mt-7">{seoCategories.map((category) => <a key={category.slug} href={`/kategoria/${category.slug}`} className="flex min-h-12 items-center justify-center rounded-2xl border border-orange-500 bg-white px-2 py-2 text-center text-xs font-black leading-tight text-orange-600 transition hover:bg-orange-500 hover:text-white sm:px-4 sm:text-sm">{category.keyword}</a>)}</nav><a href="/o-nas" className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-orange-600 sm:mt-4">O firmie i kontakt →</a></section>
-    <CatalogLoader />
-    <footer className="border-t border-zinc-200 bg-white px-4 py-8 text-sm text-zinc-600 sm:px-6"><div className="mx-auto flex max-w-7xl flex-wrap gap-x-6 gap-y-3"><a href="/o-nas" className="hover:text-zinc-950">O firmie i kontakt</a><a href="/dostawa" className="hover:text-zinc-950">Dostawa</a><a href="/zwroty-i-reklamacje" className="hover:text-zinc-950">Zwroty, reklamacja, gwarancja</a><a href="/regulamin" className="hover:text-zinc-950">Regulamin sklepu</a><a href="/polityka-prywatnosci" className="hover:text-zinc-950">Polityka prywatności i RODO</a></div></footer>
-  </main>;
+const langs=[["/","🇵🇱","PL"],["/en","🇬🇧","EN"],["/cs","🇨🇿","CZ"],["/sk","🇸🇰","SK"],["/hu","🇭🇺","HU"],["/ro","🇷🇴","RO"]];
+export default async function Home(){
+ const h=await headers(); const country=(h.get("x-vercel-ip-country")??"PL").toUpperCase(); if(country!=="PL") redirect("/"+(countryToLocale[country]??"en"));
+ const jsonLd={"@context":"https://schema.org","@type":"WebSite",name:"Widia.tech",url:"https://widia.tech",inLanguage:"pl-PL"};
+ return <main className="min-h-screen bg-white text-zinc-950"><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>
+  <header className="bg-zinc-950 px-4 py-6 text-white sm:px-6 sm:py-10"><div className="mx-auto max-w-7xl">
+   <div className="flex flex-wrap items-center justify-between gap-4"><a href="/" className="text-3xl font-black tracking-tight sm:text-5xl">WIDIA.TECH</a><div className="flex flex-wrap gap-2">{langs.map(([href,flag,label])=><a key={label} href={href} className="rounded-full border border-zinc-700 px-3 py-2 text-sm font-black hover:border-orange-400"><span className="mr-1">{flag}</span>{label}</a>)}<a href="https://wa.me/48512077770" className="rounded-full bg-green-600 px-4 py-2 text-sm font-black">WhatsApp</a></div></div>
+   <h1 className="mt-8 max-w-4xl text-3xl font-black leading-tight text-orange-400 sm:text-6xl">Narzędzia do obróbki drewna i płyt meblowych</h1><p className="mt-4 max-w-3xl text-base leading-relaxed text-zinc-300 sm:text-xl">Frezy, wały spiralne, strugi Rebir i noże do grubościówek dla warsztatów i profesjonalnej produkcji.</p>
+   <div className="mt-6 inline-flex rounded-2xl border border-green-500/60 bg-green-950/60 px-4 py-3 text-lg font-black text-green-300">DARMOWA DOSTAWA W POLSCE</div>
+   <nav className="mt-7 flex flex-wrap gap-2" aria-label="Kategorie">{seoCategories.map(c=><a key={c.slug} href={`/kategoria/${c.slug}`} className="rounded-full border border-orange-500 px-3 py-2 text-sm font-bold text-orange-300 hover:bg-orange-500 hover:text-white">{c.keyword}</a>)}</nav>
+  </div></header><CatalogLoader/><footer className="border-t border-zinc-200 px-4 py-8 text-sm text-zinc-600"><div className="mx-auto flex max-w-7xl flex-wrap gap-5"><a href="/o-nas">O firmie i kontakt</a><a href="/dostawa">Dostawa DPD</a><a href="/regulamin">Regulamin</a><a href="/polityka-prywatnosci">Polityka prywatności</a></div></footer></main>;
 }
