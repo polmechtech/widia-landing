@@ -1,81 +1,41 @@
+import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
-import { getRedisClient } from "@/lib/redis";
 
-const STATE_COOKIE = "allegro_oauth_state";
+const redis = Redis.fromEnv();
+const STATE_COOKIE = "widia_allegro_oauth_state";
 const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
-const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
-const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl";
-const DEFAULT_ALLEGRO_CLIENT_ID = "60f9f0c6597e4eb99ba6d9c1852a9cbc";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
-  const returnedState = request.nextUrl.searchParams.get("state");
-  const expectedState = request.cookies.get(STATE_COOKIE)?.value;
-  const clientId = process.env.ALLEGRO_CLIENT_ID || DEFAULT_ALLEGRO_CLIENT_ID;
-  const clientSecret = process.env.ALLEGRO_CLIENT_SECRET;
-  const redirectUri = `${request.nextUrl.origin}/api/allegro/callback`;
-
-  if (!code) {
-    return NextResponse.json({ error: "Brakuje code" }, { status: 400 });
-  }
-
-  if (!returnedState || !expectedState || returnedState !== expectedState) {
+  const state = request.nextUrl.searchParams.get("state");
+  const savedState = request.cookies.get(STATE_COOKIE)?.value;
+  if (!code) return NextResponse.json({ error: "Brakuje code" }, { status: 400 });
+  if (!state || !savedState || state !== savedState) {
     return NextResponse.json({ error: "Nieprawidłowy stan autoryzacji Allegro" }, { status: 400 });
   }
 
-  if (!clientSecret) {
-    return NextResponse.json(
-      { error: "Brakuje ALLEGRO_CLIENT_SECRET" },
-      { status: 500 }
-    );
+  const clientId = process.env.ALLEGRO_CLIENT_ID;
+  const clientSecret = process.env.ALLEGRO_CLIENT_SECRET;
+  if (!clientId || !clientSecret) {
+    return NextResponse.json({ error: "Brakuje danych aplikacji Allegro" }, { status: 500 });
   }
 
+  const redirectUri = `${request.nextUrl.origin}/api/allegro/callback`;
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-  const tokenResponse = await fetch("https://allegro.pl/auth/oauth/token", {
+  const response = await fetch("https://allegro.pl/auth/oauth/token", {
     method: "POST",
-    headers: {
-      Authorization: `Basic ${basicAuth}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: redirectUri,
-    }),
+    headers: { Authorization: `Basic ${basicAuth}`, "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ grant_type: "authorization_code", code, redirect_uri: redirectUri }),
     cache: "no-store",
   });
-
-  const tokenData = await tokenResponse.json().catch(() => null);
-  if (!tokenResponse.ok || !tokenData?.access_token || !tokenData?.refresh_token) {
-    return NextResponse.json(
-      {
-        error: "Nie udało się zakończyć autoryzacji Allegro",
-        details: tokenData?.error_description ?? tokenData?.error ?? `HTTP ${tokenResponse.status}`,
-      },
-      { status: 502 }
-    );
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    return NextResponse.json({ error: data?.error_description ?? data?.error ?? "Błąd autoryzacji Allegro" }, { status: response.status });
   }
+  if (!data?.refresh_token) return NextResponse.json({ error: "Allegro nie zwróciło refresh tokenu" }, { status: 502 });
 
-  let redis;
-  try {
-    redis = getRedisClient();
-  } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Brakuje konfiguracji Redis" },
-      { status: 500 }
-    );
-  }
-
-  const expiresIn = Number(tokenData.expires_in ?? 3600);
-  const validUntil = Date.now() + expiresIn * 1000;
-
-  await Promise.all([
-    redis.set(REFRESH_TOKEN_KEY, tokenData.refresh_token),
-    redis.set(ACCESS_TOKEN_KEY, tokenData.access_token, { ex: Math.max(60, expiresIn) }),
-    redis.set(ACCESS_TOKEN_TTL_KEY, validUntil, { ex: Math.max(60, expiresIn) }),
-  ]);
-
-  const response = NextResponse.redirect(new URL("/?allegro=connected", request.nextUrl.origin));
-  response.cookies.delete(STATE_COOKIE);
-  return response;
+  await redis.set(REFRESH_TOKEN_KEY, data.refresh_token);
+  const result = NextResponse.json({ ok: true, message: "Konto WIDIA zostało autoryzowane." });
+  result.cookies.delete(STATE_COOKIE);
+  return result;
 }
