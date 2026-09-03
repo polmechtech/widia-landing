@@ -4,9 +4,9 @@ import { getRedisClient } from "@/lib/redis";
 
 const redis = getRedisClient();
 
-const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
-const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
-const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl";
+const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token:v2";
+const ACCESS_TOKEN_KEY = "widia:allegro:access_token:v2";
+const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl:v2";
 const LOCK_KEY = "widia:allegro:refresh_lock";
 const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v2";
 const OFFERS_CACHE_SECONDS = 60 * 60;
@@ -59,6 +59,22 @@ async function getCachedAccessToken() {
 
   if (!token || !validUntil || Date.now() >= validUntil - 60_000) return null;
   return token;
+}
+
+async function assertWidiaAccount(accessToken: string) {
+  const response = await fetch("https://api.allegro.pl/me", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: "application/vnd.allegro.public.v1+json",
+    },
+    cache: "no-store",
+  });
+  const profile = await response.json().catch(() => null);
+  if (!response.ok) throw new Error("Nie udało się potwierdzić konta Allegro WIDIA.");
+  const login = String(profile?.login ?? profile?.username ?? "").trim().toLowerCase();
+  if (login !== "widia_tech") {
+    throw new Error(`Autoryzowane konto Allegro to "${login || "nieznane"}", wymagane jest "widia_tech". Otwórz /api/allegro/login i autoryzuj właściwe konto.`);
+  }
 }
 
 async function getAccessToken() {
@@ -122,6 +138,8 @@ async function getAccessToken() {
     if (!tokenData?.access_token) {
       throw new Error("Brak access_token w odpowiedzi Allegro");
     }
+
+    await assertWidiaAccount(tokenData.access_token);
 
     if (tokenData.refresh_token) {
       await saveRefreshToken(tokenData.refresh_token);
