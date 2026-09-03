@@ -8,8 +8,13 @@ export type ProductCategory =
   | "Inne";
 
 export type AllegroProduct = {
-  id: string; name: string; image: string; price: string; currency: string; stock: number; url: string; category: ProductCategory;
+  id: string; name: string; image: string; price: string; currency: string; stock: number; url: string; category: ProductCategory; description?: string; gpsr?: ProductGpsr;
 };
+export type GpsrAddress = { street?: string; postalCode?: string; city?: string; countryCode?: string };
+export type GpsrContact = { email?: string; phoneNumber?: string; formUrl?: string };
+export type GpsrParty = { name: string; address?: GpsrAddress; contact?: GpsrContact };
+export type GpsrAttachment = { id: string; name?: string; url?: string };
+export type ProductGpsr = { manufacturer?: GpsrParty; responsiblePerson?: GpsrParty; safetyInformation?: { type: string; description?: string; attachments?: GpsrAttachment[] } };
 export const WIDIA_UI_VERSION = "dpd-free-v1";
 export function classifyProduct(name: string): ProductCategory {
  const n=name.toLocaleLowerCase("pl-PL");
