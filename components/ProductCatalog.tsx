@@ -79,7 +79,7 @@ export default function ProductCatalog({ products }: { products: AllegroProduct[
           {normalizedQuery && <p className="mt-2 text-xs text-zinc-500 sm:mt-3 sm:text-sm">Znaleziono: <strong className="text-zinc-900">{filteredProducts.length}</strong></p>}
         </div>
         <div className="grid gap-8 lg:grid-cols-[230px_minmax(0,1fr)]">
-          <aside className="hidden lg:block"><div className="sticky top-6"><h2 className="mb-4 text-xl font-black">Kategorie</h2><nav className="grid grid-cols-2 gap-2">{sections.map((section) => <a key={section} href={`#${categoryId(section)}`} className="flex min-h-12 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-2 text-center text-xs font-bold transition hover:border-orange-400 hover:bg-orange-50 hover:text-orange-700">{section}</a>)}</nav></div></aside>
+          <aside className="hidden lg:block"><div className="sticky top-0"><h2 className="mb-4 text-xl font-black">Kategorie</h2><nav className="grid grid-cols-2 gap-2">{sections.map((section) => <a key={section} href={`#${categoryId(section)}`} className="flex min-h-12 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-2 text-center text-xs font-bold transition hover:border-orange-400 hover:bg-orange-50 hover:text-orange-700">{section}</a>)}</nav></div></aside>
           <div className="min-w-0">
             {sections.map((section) => {
               const sectionProducts = filteredProducts.filter((product) => product.category === section);
