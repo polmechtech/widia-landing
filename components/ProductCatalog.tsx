@@ -64,7 +64,7 @@ export default function ProductCatalog({ products }: { products: AllegroProduct[
   return (
     <section className="bg-white px-3 py-5 text-zinc-950 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-7xl">
-        <div className="sticky top-6 z-20 -mx-3 mb-5 border-b border-zinc-200 bg-white/95 px-3 pb-3 pt-3 backdrop-blur sm:static sm:mx-0 sm:mb-8 sm:border-0 sm:bg-transparent sm:px-0 sm:pb-0 sm:pt-0 sm:backdrop-blur-none">
+        <div className="sticky top-6 z-20 -mx-3 mb-5 rounded-2xl border border-zinc-200 bg-white/95 px-3 pb-3 pt-3 shadow-md backdrop-blur sm:mx-0 sm:mb-8 sm:px-4 sm:pb-4 sm:pt-4">
           <div className="flex items-center gap-4">
             <div className="min-w-0 flex-1">
               <label htmlFor="product-search" className="sr-only">Szukaj produktu</label>
