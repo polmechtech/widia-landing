@@ -208,13 +208,21 @@ function descriptionToText(description: any) {
   return sections.flatMap((section: any) => Array.isArray(section?.items) ? section.items : [])
     .filter((item: any) => item?.type === "TEXT" && typeof item?.content === "string")
     .map((item: any) => item.content
-      .replace(/<br\\s*\\/?>/gi, "\\n")
-      .replace(/<\\/p>/gi, "\\n\\n")
-      .replace(/<\\/li>/gi, "\\n")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/p>/gi, "\n\n")
+      .replace(/<\/li>/gi, "\n")
       .replace(/<[^>]+>/g, "")
-      .replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&#39;/g, "'").trim())
-    .filter(Boolean).join("\\n\\n").replace(/\\n{3,}/g, "\\n\\n").slice(0, 12000);
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, "\"")
+      .replace(/&#39;/g, "'")
+      .trim())
+    .filter(Boolean)
+    .join("\n\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .slice(0, 12000);
 }
 
 async function enrichProductsWithGpsr(accessToken: string, products: AllegroProduct[]) {
