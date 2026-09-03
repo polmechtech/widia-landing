@@ -8,7 +8,7 @@ const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
 const ACCESS_TOKEN_KEY = "widia:allegro:access_token";
 const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl";
 const LOCK_KEY = "widia:allegro:refresh_lock";
-const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v1";
+const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v2";
 const OFFERS_CACHE_SECONDS = 60 * 60;
 const TRANSLATION_CACHE_SECONDS = 60 * 60;
 const SUPPORTED_TRANSLATION_LANGUAGES = new Set(["cs-CZ", "sk-SK", "hu-HU"]);
@@ -187,7 +187,7 @@ async function loadProducts(): Promise<AllegroProduct[]> {
 
   const accessToken = await getAccessToken();
   const offersData = await fetchAllActiveOffers(accessToken);
-  const products = mapAllegroOffers(offersData);
+  const products = mapAllegroOffers(offersData).filter((product) => product.category !== "Inne");
 
   await redis.set(OFFERS_CACHE_KEY, products, { ex: OFFERS_CACHE_SECONDS });
   return products;
