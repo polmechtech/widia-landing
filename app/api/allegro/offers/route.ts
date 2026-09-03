@@ -61,22 +61,6 @@ async function getCachedAccessToken() {
   return token;
 }
 
-async function assertWidiaAccount(accessToken: string) {
-  const response = await fetch("https://api.allegro.pl/me", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Accept: "application/vnd.allegro.public.v1+json",
-    },
-    cache: "no-store",
-  });
-  const profile = await response.json().catch(() => null);
-  if (!response.ok) throw new Error("Nie udało się potwierdzić konta Allegro WIDIA.");
-  const login = String(profile?.login ?? profile?.username ?? "").trim().toLowerCase();
-  if (login !== "widia_tech") {
-    throw new Error(`Autoryzowane konto Allegro to "${login || "nieznane"}", wymagane jest "widia_tech". Otwórz /api/allegro/login i autoryzuj właściwe konto.`);
-  }
-}
-
 async function getAccessToken() {
   const cachedToken = await getCachedAccessToken();
   if (cachedToken) return cachedToken;
@@ -138,8 +122,6 @@ async function getAccessToken() {
     if (!tokenData?.access_token) {
       throw new Error("Brak access_token w odpowiedzi Allegro");
     }
-
-    await assertWidiaAccount(tokenData.access_token);
 
     if (tokenData.refresh_token) {
       await saveRefreshToken(tokenData.refresh_token);
