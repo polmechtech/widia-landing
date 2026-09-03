@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const redis = Redis.fromEnv();
 const STATE_COOKIE = "widia_allegro_oauth_state";
-const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token";
+const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token:v2";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
