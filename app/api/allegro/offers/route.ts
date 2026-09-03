@@ -277,11 +277,9 @@ export async function GET(request: Request) {
       });
     }
 
+    console.error("Allegro synchronization failed", error);
     return NextResponse.json(
-      {
-        error: "Allegro synchronization failed",
-        details: error instanceof Error ? error.message : String(error),
-      },
+      { error: "Allegro synchronization failed. Reauthorization required." },
       { status: 503 }
     );
   }
