@@ -266,6 +266,14 @@ export async function GET(request: Request) {
       headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
     });
   } catch (error) {
+    if (error instanceof Error && /refresh token/i.test(error.message)) {
+      await Promise.all([
+        redis.del(REFRESH_TOKEN_KEY),
+        redis.del(ACCESS_TOKEN_KEY),
+        redis.del(ACCESS_TOKEN_TTL_KEY),
+        redis.del(OFFERS_CACHE_KEY),
+      ]).catch(() => undefined);
+    }
     const cached = await redis.get<AllegroProduct[]>(OFFERS_CACHE_KEY).catch(() => null);
 
     if (cached) {
