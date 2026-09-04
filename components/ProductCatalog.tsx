@@ -3,8 +3,6 @@
 import { useMemo, useState } from "react";
 import { getOfferPath, type AllegroProduct, type ProductCategory } from "@/lib/allegro";
 
-type ErliInfo = { price: string; currency: string; url: string };
-type ErliMap = Record<string, ErliInfo>;
 type CartItem = { id: string; name: string; price: string; currency: string; image?: string; quantity: number };
 
 const CART_KEY = "widia-cart";
@@ -35,22 +33,6 @@ function addToCart(product: AllegroProduct) {
 
 function categoryId(category: ProductCategory) {
   return `kategoria-${category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l").replace(/[^a-z0-9]+/g, "-")}`;
-}
-
-function constructionRank(product: AllegroProduct) {
-  const name = product.name.toLocaleLowerCase("pl-PL");
-  const isCutter = name.includes("przecinarka do płytek") || name.includes("przecinarka do plytek") || name.includes("glazury gresu");
-  const isElectric = name.includes("elektryczna prowadnica") || name.includes("prowadnica elektryczna");
-  const isGuide = name.includes("prowadnica");
-  const isSaw = name.includes("piła pierścieniowa") || name.includes("pila pierscieniowa");
-  const isLongGuide = name.includes("2,5 m") || name.includes("2,5m");
-  if (isCutter) return 90;
-  if (isGuide && !isSaw && !isElectric) return 20;
-  if (isGuide && !isSaw && isElectric) return 21;
-  if (isSaw && isLongGuide && !isElectric) return 30;
-  if (isSaw && isElectric) return 31;
-  if (isSaw && !isLongGuide && !isElectric) return 10;
-  return 50;
 }
 
 export default function ProductCatalog({ products }: { products: AllegroProduct[] }) {

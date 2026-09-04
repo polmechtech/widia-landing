@@ -2,7 +2,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { countryToLocale } from "@/lib/locales";
 import CatalogLoader from "@/components/CatalogLoader";
-import { seoCategories } from "@/lib/seoCategories";
 const langs=[["/","🇵🇱","PL"],["/cs","🇨🇿","CZ"],["/sk","🇸🇰","SK"],["/hu","🇭🇺","HU"]];
 export default async function Home(){
  const h=await headers(); const country=(h.get("x-vercel-ip-country")??"PL").toUpperCase(); const locale=countryToLocale[country]; if(locale) redirect("/"+locale);
