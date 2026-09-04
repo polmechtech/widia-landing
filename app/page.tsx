@@ -13,5 +13,5 @@ export default async function Home(){
    <h1 className="mt-8 max-w-4xl text-3xl font-black leading-tight text-orange-400 sm:text-6xl">Narzędzia do obróbki drewna i płyt meblowych</h1><p className="mt-4 max-w-3xl text-base leading-relaxed text-zinc-300 sm:text-xl">Frezy, wały spiralne, strugi Rebir i noże do grubościówek dla warsztatów i profesjonalnej produkcji.</p>
    <div className="mt-6 inline-flex rounded-2xl border border-green-500/60 bg-green-950/60 px-4 py-3 text-lg font-black text-green-300">DARMOWA DOSTAWA W POLSCE</div>
    
-  </div></header><CatalogLoader/><footer className="border-t border-zinc-200 px-4 py-8 text-sm text-zinc-600"><div className="mx-auto flex max-w-7xl flex-wrap gap-5"><a href="/o-nas">O firmie i kontakt</a><a href="/dostawa">Dostawa DPD</a><a href="/regulamin">Regulamin</a><a href="/polityka-prywatnosci">Polityka prywatności</a></div></footer></main>;
+  </div></header><CatalogLoader/><footer className="border-t border-zinc-200 px-4 py-8 text-sm text-zinc-600"><div className="mx-auto flex max-w-7xl flex-wrap gap-5"><a href="/o-nas">O firmie i kontakt</a><a href="/poradnik">Poradnik obróbki drewna</a><a href="/dostawa">Dostawa DPD</a><a href="/regulamin">Regulamin</a><a href="/polityka-prywatnosci">Polityka prywatności</a></div></footer></main>;
 }

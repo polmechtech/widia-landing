@@ -61,6 +61,7 @@ export async function GET() {
       <g:brand>Widia.tech</g:brand>
       <g:product_type>${escapeXml(product.category)}</g:product_type>
       <g:identifier_exists>no</g:identifier_exists>
+      <g:shipping><g:country>PL</g:country><g:service>Darmowa dostawa</g:service><g:price>0.00 PLN</g:price></g:shipping>
     </item>`;
     })
     .join("");

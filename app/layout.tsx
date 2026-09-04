@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "Widia.tech — maszyny i narzędzia", template: "%s | Widia.tech" },
   description: "Maszyny i narzędzia dla meblarstwa, budownictwa i obróbki drewna. Aktualne ceny i dostępność z ofert Widia.tech na Allegro.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", types: { "application/rss+xml": "/feed.xml" } },
   icons: { icon: [{ url: originalFavicon, type: "image/x-icon" }], shortcut: originalFavicon },
   openGraph: { type: "website", locale: "pl_PL", url: siteUrl, siteName: "Widia.tech", title: "Widia.tech — maszyny i narzędzia", description: "Aktualny katalog maszyn i narzędzi Widia.tech. Zakup, płatność i dostawa realizowane przez Allegro." },
   twitter: { card: "summary_large_image", title: "Widia.tech — maszyny i narzędzia", description: "Aktualny katalog ofert Widia.tech dostępnych na Allegro." },
@@ -23,9 +23,12 @@ export const metadata: Metadata = {
 };
 
 const organizationJsonLd = {
-  "@context": "https://schema.org", "@type": "Organization", name: "Widia.tech", url: siteUrl,
+  "@context": "https://schema.org", "@type": "Organization", "@id": `${siteUrl}/#organization`, name: "WIDIA.TECH", url: siteUrl,
   email: "info@widia.tech", telephone: "+48512077770",
   address: { "@type": "PostalAddress", streetAddress: "Jagielska 25/27", postalCode: "02-886", addressLocality: "Warszawa", addressCountry: "PL" },
+  areaServed: { "@type": "Country", name: "Poland" },
+  knowsAbout: ["frezy do drewna", "frezy na płytki wymienne", "wały spiralne", "noże do grubościówek", "strugi Rebir", "obróbka drewna"],
+  contactPoint: { "@type": "ContactPoint", telephone: "+48512077770", email: "info@widia.tech", contactType: "customer service", areaServed: "PL", availableLanguage: ["pl", "en"] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

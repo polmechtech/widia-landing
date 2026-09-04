@@ -1,4 +1,5 @@
 import { getOfferPath, type AllegroProduct } from "@/lib/allegro";
+import { seoGuides } from "@/lib/seoGuides";
 
 export const revalidate = 3600;
 
@@ -27,6 +28,8 @@ export async function GET() {
     "XML sitemap: https://widia.tech/sitemap.xml",
     "RSS feed: https://widia.tech/feed.xml",
     "About: https://widia.tech/o-nas",
+    "Buying guides: https://widia.tech/poradnik",
+    ...seoGuides.map((guide) => `- ${guide.heading}: https://widia.tech/poradnik/${guide.slug}`),
     "",
     "## Main categories",
     "- Meblarstwo",
