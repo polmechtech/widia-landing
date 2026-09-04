@@ -3,9 +3,9 @@ import { redirect } from "next/navigation";
 import { countryToLocale } from "@/lib/locales";
 import CatalogLoader from "@/components/CatalogLoader";
 import { seoCategories } from "@/lib/seoCategories";
-const langs=[["/","🇵🇱","PL"],["/en","🇬🇧","EN"],["/cs","🇨🇿","CZ"],["/sk","🇸🇰","SK"],["/hu","🇭🇺","HU"],["/ro","🇷🇴","RO"]];
+const langs=[["/","🇵🇱","PL"],["/cs","🇨🇿","CZ"],["/sk","🇸🇰","SK"],["/hu","🇭🇺","HU"]];
 export default async function Home(){
- const h=await headers(); const country=(h.get("x-vercel-ip-country")??"PL").toUpperCase(); if(country!=="PL") redirect("/"+(countryToLocale[country]??"en"));
+ const h=await headers(); const country=(h.get("x-vercel-ip-country")??"PL").toUpperCase(); const locale=countryToLocale[country]; if(locale) redirect("/"+locale);
  const jsonLd={"@context":"https://schema.org","@type":"WebSite",name:"Widia.tech",url:"https://widia.tech",inLanguage:"pl-PL"};
  return <main className="min-h-screen bg-white text-zinc-950"><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/>
   <header className="bg-zinc-950 px-4 py-6 text-white sm:px-6 sm:py-10"><div className="mx-auto max-w-7xl">

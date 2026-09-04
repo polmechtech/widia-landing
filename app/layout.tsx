@@ -28,7 +28,7 @@ const organizationJsonLd = {
   address: { "@type": "PostalAddress", streetAddress: "Jagielska 25/27", postalCode: "02-886", addressLocality: "Warszawa", addressCountry: "PL" },
   areaServed: { "@type": "Country", name: "Poland" },
   knowsAbout: ["frezy do drewna", "frezy na płytki wymienne", "wały spiralne", "noże do grubościówek", "strugi Rebir", "obróbka drewna"],
-  contactPoint: { "@type": "ContactPoint", telephone: "+48512077770", email: "info@widia.tech", contactType: "customer service", areaServed: "PL", availableLanguage: ["pl", "en"] },
+  contactPoint: { "@type": "ContactPoint", telephone: "+48512077770", email: "info@widia.tech", contactType: "customer service", areaServed: "PL", availableLanguage: ["pl"] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

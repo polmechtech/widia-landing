@@ -1,21 +1,18 @@
-export type SiteLocale = "en" | "cs" | "sk" | "hu" | "ro";
+export type SiteLocale = "cs" | "sk" | "hu";
 
-export const supportedLocales: SiteLocale[] = ["en", "cs", "sk", "hu", "ro"];
+export const supportedLocales: SiteLocale[] = ["cs", "sk", "hu"];
 
 export const localeLabels: Record<SiteLocale | "pl", string> = {
   pl: "Polski",
-  en: "English",
   cs: "Čeština",
   sk: "Slovenčina",
   hu: "Magyar",
-  ro: "Română",
 };
 
 export const countryToLocale: Record<string, SiteLocale> = {
   CZ: "cs",
   SK: "sk",
   HU: "hu",
-  RO: "ro",
 };
 
 export const texts: Record<SiteLocale, {
@@ -30,18 +27,6 @@ export const texts: Record<SiteLocale, {
   noResults: string;
   clear: string;
 }> = {
-  en: {
-    intro: "Machines and tools for woodworking, construction and wood processing.",
-    subintro: "Browse the current Widia.tech range and open the selected offer on Allegro.",
-    search: "Search products...",
-    categories: { "Łuparki": "Log splitters", "Budownictwo": "Construction", "Meblarstwo": "Woodworking", "Akcesoria": "Accessories" },
-    available: "Available",
-    unavailable: "Temporarily unavailable",
-    buyAllegro: "Buy on Allegro",
-    noProducts: "Current Allegro offers could not be loaded.",
-    noResults: "No products found",
-    clear: "Clear search",
-  },
   cs: {
     intro: "Stroje a nářadí pro truhlářství, stavebnictví a zpracování dřeva.",
     subintro: "Prohlédněte si aktuální nabídku Widia.tech a otevřete vybranou nabídku na Allegro.cz.",
@@ -77,18 +62,6 @@ export const texts: Record<SiteLocale, {
     noProducts: "Az aktuális Allegro ajánlatok nem tölthetők be.",
     noResults: "Nincs találat",
     clear: "Keresés törlése",
-  },
-  ro: {
-    intro: "Mașini și unelte pentru tâmplărie, construcții și prelucrarea lemnului.",
-    subintro: "Consultați oferta actuală Widia.tech și deschideți oferta selectată pe Allegro.",
-    search: "Caută produs...",
-    categories: { "Łuparki": "Despicătoare de lemn", "Budownictwo": "Construcții", "Meblarstwo": "Tâmplărie", "Akcesoria": "Accesorii" },
-    available: "Disponibil",
-    unavailable: "Indisponibil temporar",
-    buyAllegro: "Cumpără pe Allegro",
-    noProducts: "Ofertele Allegro actuale nu au putut fi încărcate.",
-    noResults: "Nu au fost găsite produse",
-    clear: "Șterge căutarea",
   },
 };
 
