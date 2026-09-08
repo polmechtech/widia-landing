@@ -26,11 +26,12 @@ function confirmedFacts(product: AllegroProduct) {
     const match = source.match(regex);
     if (match?.[1]) facts.push({ section, name, value: match[1].trim() });
   };
+  const wattNumber = String.raw`(?:\d{1,2}(?:[ \u00A0]\d{3})+|\d{3,5})`;
   add("Średnica", /\b(?:średnica|Ø|fi|D)\s*[:=]?\s*(\d{1,4}(?:[.,]\d+)?\s?mm)\b/i);
   add("Chwyt", /\b(?:chwyt|trzpień)\s*[:=]?\s*(\d{1,3}(?:[.,]\d+)?\s?mm)\b/i);
-  add("Wymiar", /\b(\d{1,4}\s?[x×]\s?\d{1,4}(?:\s?[x×]\s?\d{1,4})?\s?mm)\b/i);
-  add("Moc", /\b(\d{3,5}(?:[.,]\d+)?\s?(?:W|kW))\b/i);
-  add("Liczba zębów/noży", /\b(\d{1,3}\s?(?:zębów|zęby|Z|noży))\b/i);
+  add("Wymiar", /\b(\d{1,4}\s?[x×]\s?\d{1,4}(?:\/\d{1,4})?(?:\s?[x×]\s?\d{1,4})?\s?mm)\b/i);
+  add("Moc", new RegExp(`\\b(${wattNumber}(?:[.,]\\d+)?\\s?W|\\d{1,3}(?:[.,]\\d+)?\\s?kW)\\b`, "i"));
+  add("Liczba zębów/noży", /\b(\d{1,3}\s?(?:zębów|zęby|zęba|noży|noże))\b/i);
   return facts.slice(0, 6);
 }
 
