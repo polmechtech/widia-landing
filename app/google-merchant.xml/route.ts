@@ -19,6 +19,32 @@ function descriptionFor(product: AllegroProduct) {
   return product.description?.slice(0, 5000) || `${product.name}. Nowy produkt dostępny w WIDIA.TECH. Kategoria: ${product.category}. Aktualna cena, dostępność i możliwość zakupu bezpośrednio na widia.tech.`;
 }
 
+function explicitCuttingCount(product: AllegroProduct) {
+  const name = product.name.replace(/\s+/g, " ");
+  const description = (product.description || "").replace(/\s+/g, " ");
+  const lowerName = name.toLowerCase();
+
+  if (lowerName.includes("wał spiralny") || lowerName.includes("wal spiralny")) {
+    const labeled = description.match(/\b(?:ilość|liczba)\s+noży\s*[-:=]?\s*(\d{1,3})\s*(?:szt\.?)?/i);
+    if (labeled?.[1]) return `${labeled[1]} noży`;
+    const titleCount = name.match(/\b(\d{1,3})\s+noże\b/i);
+    if (titleCount?.[1]) return `${titleCount[1]} noży`;
+    return null;
+  }
+
+  if (lowerName.includes("frez nasadzany")) {
+    const labeled = description.match(/\bliczba\s+zębów\s*(?:\(Z\))?\s*[-:=]?\s*(\d{1,3})\b/i);
+    if (labeled?.[1]) return `${labeled[1]} zębów`;
+    const titleCount = name.match(/\b(\d{1,3})\s+(?:zębów|zęby|zęba)\b/i);
+    if (titleCount?.[1]) return `${titleCount[1]} zębów`;
+    return null;
+  }
+
+  const titleKnives = name.match(/^\s*(\d{1,3})\s+(?:zapasowe\s+)?noże\b/i);
+  if (titleKnives?.[1]) return `${titleKnives[1]} noże`;
+  return null;
+}
+
 function confirmedFacts(product: AllegroProduct) {
   const source = `${product.name} ${product.description || ""}`.replace(/\s+/g, " ");
   const facts: { section: string; name: string; value: string }[] = [];
@@ -31,7 +57,8 @@ function confirmedFacts(product: AllegroProduct) {
   add("Chwyt", /\b(?:chwyt|trzpień)\s*[:=]?\s*(\d{1,3}(?:[.,]\d+)?\s?mm)\b/i);
   add("Wymiar", /\b(\d{1,4}\s?[x×]\s?\d{1,4}(?:\/\d{1,4})?(?:\s?[x×]\s?\d{1,4})?\s?mm)\b/i);
   add("Moc", new RegExp(`\\b(${wattNumber}(?:[.,]\\d+)?\\s?W|\\d{1,3}(?:[.,]\\d+)?\\s?kW)\\b`, "i"));
-  add("Liczba zębów/noży", /\b(\d{1,3}\s?(?:zębów|zęby|zęba|noży|noże))\b/i);
+  const cuttingCount = explicitCuttingCount(product);
+  if (cuttingCount) facts.push({ section: "Parametry techniczne", name: "Liczba zębów/noży", value: cuttingCount });
   return facts.slice(0, 6);
 }
 
