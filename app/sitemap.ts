@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getOfferPath, type AllegroProduct } from "@/lib/allegro";
 import { seoCategories } from "@/lib/seoCategories";
 import { seoGuides } from "@/lib/seoGuides";
+import { funnyStories } from "@/lib/funnyStories";
 export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
  const baseUrl="https://widia.tech"; const now=new Date();
@@ -13,6 +14,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   {url:`${baseUrl}/regulamin`,lastModified:now,changeFrequency:"monthly",priority:.5},
   {url:`${baseUrl}/polityka-prywatnosci`,lastModified:now,changeFrequency:"monthly",priority:.5},
   {url:`${baseUrl}/poradnik`,lastModified:now,changeFrequency:"weekly",priority:.85},
+  {url:`${baseUrl}/zabawne-historie`,lastModified:now,changeFrequency:"weekly",priority:.65},
+  ...funnyStories.map(story=>({url:`${baseUrl}/zabawne-historie/${story.slug}`,lastModified:now,changeFrequency:"monthly" as const,priority:.6})),
   ...seoGuides.map(guide=>({url:`${baseUrl}/poradnik/${guide.slug}`,lastModified:now,changeFrequency:"monthly" as const,priority:.8})),
   ...seoCategories.map(category=>({url:`${baseUrl}/kategoria/${category.slug}`,lastModified:now,changeFrequency:"daily" as const,priority:.95}))
  ];
