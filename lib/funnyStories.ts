@@ -1,6 +1,15 @@
 export type FunnyStory={slug:string;hero:string;character:string;product:string;href:string;story:string};
 export const funnyStories:FunnyStory[]=[
   {
+    "slug": "lukasz-i-taca-na-okruszki-2026-11-02",
+    "hero": "Łukasz i taca na okruszki",
+    "character": "Łukasz z Poznania",
+    "product": "Frezy do drewna",
+    "href": "/kategoria/frez-na-plytki-wymienne",
+    "story": "Łukasz z Poznania robił drewnianą tacę na niedzielne ciasto dla babci. Wyfrezował delikatny rowek przy krawędzi, żeby okruszki nie spadały na obrus. Babcia obejrzała tacę i spytała: „Tyle frezowania drewna, żeby nie zamiatać?”. Łukasz uśmiechnął się i podał makowiec. Po pierwszym kawałku rowek zapełnił się okruszkami, a obrus pozostał czysty. Dziadek obejrzał dzieło i stwierdził: „W Poznaniu nawet okruszek ma swoje miejsce”. Babcia przyznała mu rację, po czym poprosiła o drugą tacę. „Po co?” — zdziwił się Łukasz. „Na sernik. Nie będziemy przecież mieszać okruszków”. I tak z jednego rowka zrobiły się dwie rodzinne tradycje."
+  },
+
+  {
     "slug": "lukasz-i-szczesliwa-trzynastka-2026-10-26",
     "hero": "Łukasz i szczęśliwa trzynastka",
     "character": "Łukasz z Poznania",
