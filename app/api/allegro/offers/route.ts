@@ -8,7 +8,7 @@ const REFRESH_TOKEN_KEY = "widia:allegro:refresh_token:v2";
 const ACCESS_TOKEN_KEY = "widia:allegro:access_token:v2";
 const ACCESS_TOKEN_TTL_KEY = "widia:allegro:access_token_ttl:v2";
 const LOCK_KEY = "widia:allegro:refresh_lock";
-const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v4";
+const OFFERS_CACHE_KEY = "widia:allegro:offers_cache:v5";
 const OFFERS_CACHE_SECONDS = 60 * 60;
 const TRANSLATION_CACHE_SECONDS = 60 * 60;
 const SUPPORTED_TRANSLATION_LANGUAGES = new Set(["cs-CZ", "sk-SK", "hu-HU"]);
@@ -240,6 +240,7 @@ async function enrichProductsWithGpsr(accessToken: string, products: AllegroProd
       if (!item) return;
       const description = descriptionToText(offer?.description);
       if (description) product.description = description;
+      if (Array.isArray(offer?.description?.sections)) product.descriptionSections = offer.description.sections;
       const producerRecord = findReferencedRecord(item.responsibleProducer, producers);
       const personRecord = findReferencedRecord(item.responsiblePerson, persons);
       const safety = item.safetyInformation;
