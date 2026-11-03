@@ -8,7 +8,7 @@ export type ProductCategory =
   | "Inne";
 
 export type AllegroProduct = {
-  id: string; name: string; image: string; price: string; currency: string; stock: number; url: string; category: ProductCategory; description?: string; gpsr?: ProductGpsr;
+  id: string; name: string; image: string; price: string; currency: string; stock: number; url: string; category: ProductCategory; description?: string; descriptionSections?: Array<{items?: Array<{type?: string; url?: string; content?: string}>}>; gpsr?: ProductGpsr;
 };
 export type GpsrAddress = { street?: string; postalCode?: string; city?: string; countryCode?: string };
 export type GpsrContact = { email?: string; phoneNumber?: string; formUrl?: string };
@@ -26,6 +26,34 @@ export function classifyProduct(name: string): ProductCategory {
  if(n.includes("frez")||n.includes("głowic")||n.includes("glowic")) return "Frez nasadzany prosty";
  return "Inne";
 }
+
+/** Product titles are normalized only for display; original Allegro titles and URLs remain unchanged. */
+export function getDisplayProductName(name: string): string {
+  const normalized = name.toLocaleLowerCase("pl-PL")
+    .replace(/\bwidia\.tech\b/gi, "WIDIA.TECH")
+    .replace(/\bpolmech\.tech\b/gi, "POLMECH.TECH")
+    .replace(/\btrendeco\b/gi, "TrendEco")
+    .replace(/\brebir\b/gi, "Rebir")
+    .replace(/\bcnc\b/gi, "CNC")
+    .replace(/\bmdf\b/gi, "MDF")
+    .replace(/\b(hm|hss|hw)\b/gi, (_, code: string) => code.toUpperCase())
+    .replace(/\b(\d+(?:[,.]\d+)?)\s*kw\b/gi, "$1 kW")
+    .replace(/\b(\d+(?:[,.]\d+)?)\s*v\b/gi, "$1 V")
+    .replace(/\b(\d+(?:[,.]\d+)?)\s*w\b/gi, "$1 W")
+    .replace(/\b(\d+(?:[,.]\d+)?)\s*mm\b/gi, "$1 mm");
+  return normalized.replace(/^([^\p{L}]*)(\p{L})/u, (_, prefix: string, first: string) =>
+    prefix + first.toLocaleUpperCase("pl-PL"));
+}
+
+export function getAllegroDescriptionImages(product: AllegroProduct): string[] {
+  const sections = Array.isArray(product.descriptionSections) ? product.descriptionSections : [];
+  const urls = sections.flatMap(section => Array.isArray(section?.items) ? section.items : [])
+    .filter(item => item.type === "IMAGE" && typeof item.url === "string")
+    .map(item => item.url!.trim())
+    .filter(url => /^https:\/\//i.test(url) && url !== product.image);
+  return [...new Set(urls)];
+}
+
 export function slugifyOfferName(name:string){return name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").replace(/-+/g,"-").slice(0,140)||"oferta";}
 export function getOfferPath(product:Pick<AllegroProduct,"id"|"name">){return `/oferta/${slugifyOfferName(product.name)}-${product.id}`;}
 export function extractOfferId(slug:string){return slug.match(/-(\d+)$/)?.[1]??null;}
