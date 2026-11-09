@@ -1,6 +1,15 @@
 export type FunnyStory={slug:string;hero:string;character:string;product:string;href:string;story:string};
 export const funnyStories:FunnyStory[]=[
   {
+    "slug": "lukasz-i-tabliczka-prosze-pukac-2026-11-09",
+    "hero": "Łukasz i tabliczka „Proszę pukać”",
+    "character": "Łukasz z Poznania",
+    "product": "Frezy do drewna",
+    "href": "/kategoria/frez-na-plytki-wymienne",
+    "story": "Łukasz z Poznania dostał zamówienie na drewnianą tabliczkę do drzwi pracowni: „Proszę pukać”. Starannie dobrał frez do drewna, wykonał próbne frezowanie liter i wygładził krawędzie. Klient odebrał tabliczkę, lecz po godzinie wrócił. „Napis jest piękny, tylko nikt nie puka!”. Łukasz obejrzał drzwi i zauważył, że tabliczka wisi od wewnątrz. Przewiesił ją na drugą stronę. Nazajutrz klient zadzwonił zadowolony: „Teraz pukają wszyscy, nawet żona!”. „To dobrze” — odparł Łukasz. „W Poznaniu za skuteczność nie doliczamy, ale za drugą tabliczkę już tak”. Klient zamówił drugą: „Proszę wejść”. Tym razem od razu ustalili, po której stronie ma wisieć."
+  },
+
+  {
     "slug": "lukasz-i-taca-na-okruszki-2026-11-02",
     "hero": "Łukasz i taca na okruszki",
     "character": "Łukasz z Poznania",
