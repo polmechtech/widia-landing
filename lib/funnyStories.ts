@@ -1,5 +1,7 @@
 export type FunnyStory={slug:string;hero:string;character:string;product:string;href:string;story:string};
 export const funnyStories:FunnyStory[]=[
+  {"slug":"lukasz-i-rowek-na-sekret-2026-11-16","hero":"Łukasz i rowek na sekret","character":"Łukasz z Poznania","product":"Frezy do drewna","href":"/kategoria/frez-na-plytki-wymienne","story":"Łukasz z Poznania robił drewniane pudełko na rodzinne pamiątki. Klient poprosił o dyskretny rowek pod wieczkiem: „Żeby nikt nie wiedział, jak się otwiera”. Łukasz dobrał frez do drewna, wykonał precyzyjne frezowanie i dopasował pokrywkę tak, że przesuwała się lekko, lecz bez luzu. Klient wrócił następnego dnia. „Żona od razu znalazła schowek!”. „Skąd wiedziała?” — zdziwił się Łukasz. „Bo schowałem tam czekoladki, a ona zna wszystkie moje kryjówki”. Łukasz zaproponował drugie pudełko. „Na tajemnice?”. „Nie, na czekoladki dla żony. Wtedy pierwsze zostanie w spokoju”. Plan zadziałał, a klient uznał, że najlepszy mechanizm zabezpieczający to uczciwy podział słodyczy."},
+
   {
     "slug": "lukasz-i-tabliczka-prosze-pukac-2026-11-09",
     "hero": "Łukasz i tabliczka „Proszę pukać”",
